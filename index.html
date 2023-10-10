@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🖼️</text></svg>"
+    />
+    <title>Image Resize</title>
+    <style>
+      body {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #f1f5f9;
+      }
+
+      .image-container {
+        display: flex;
+        gap: 0.5rem;
+      }
+
+      .image-card {
+        padding: 0.5rem;
+        background-color: #fff;
+        box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1),
+          0 1px 2px -1px rgb(0 0 0 / 0.1);
+      }
+
+      .image-card:hover {
+        cursor: pointer;
+        box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+          0 4px 6px -4px rgb(0 0 0 / 0.1);
+      }
+
+      .image-card img {
+        max-height: 18rem;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="image-container" id="app"></div>
+
+    <script>
+      async function fetchImages() {
+        const response = await fetch("/images");
+        const images = await response.json();
+        const container = document.getElementById("app");
+        images.forEach((image) => {
+          const card = document.createElement("a");
+          card.className = "image-card";
+          card.href = `/${image}?size=`;
+          const img = document.createElement("img");
+          img.src = `/${image}`;
+          img.alt = image;
+          img.title = image;
+          card.appendChild(img);
+          container.appendChild(card);
+        });
+      }
+
+      fetchImages();
+    </script>
+  </body>
+</html>
